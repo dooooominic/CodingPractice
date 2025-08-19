@@ -9,9 +9,9 @@ int main(){
     int guess;
     bool correctGuess;
     srand(time(0));
-    randomNumber = rand() % 100;
+    randomNumber = rand() % 100 +1;
 
-    cout << "Let's play number guesser! I have a number between 0 and 99. What's your guess? " <<endl;
+    cout << "Let's play number guesser! I have a number between 1 and 100. What's your guess? " <<endl;
     
     correctGuess = false;
 
@@ -22,10 +22,10 @@ int main(){
         }
 
         else if (guess < randomNumber){
-            cout<< "Too low. Please try again." <<endl;
+            cout<< "Secret number is larger than your guess. Please try again." <<endl;
         }
         else if(guess > randomNumber){
-            cout <<"Too high. Please try again." <<endl;
+            cout <<"Secret number is less than your guess. Please try again." <<endl;
         }
     }
     cout<<"Congratulations! You guessed my number!" <<endl;
