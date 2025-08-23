@@ -1,5 +1,5 @@
 from math import *
-from collections import List
+from typing import List
 
 #print("Hello world!")
 #print("C++ is the better langauge this feels so weird!")
@@ -463,3 +463,51 @@ class Solution:
             counts[curr] += 1
     
         return ans
+
+#LinkedList in Python! No pointers!
+class ListNode:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+# To add: Let prev_node be the node at position i - 1
+def add_node(prev_node, node_to_add):
+    node_to_add.next = prev_node.next
+    prev_node.next = node_to_add
+
+one = ListNode(1)
+two = ListNode(2)
+head = one
+one.next = two
+
+add_node(one, ListNode(3)) 
+while head:
+    print(head.val)
+    head = head.next
+
+#deleting a node
+def delete_node(prev_node):
+    prev_node.next = prev_node.next.next
+
+'''
+def get_sum(head):
+    ans = 0
+    dummy = head
+    while dummy:
+        ans += dummy.val
+        dummy = dummy.next
+    
+    # same as before, but we still have a pointer at the head! Using dummy node to preserve head 
+    return ans
+'''
+
+#Fast and Slow pointer technique 
+def get_middle(head):
+    slow = head
+    fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    
+    return slow.val
+
