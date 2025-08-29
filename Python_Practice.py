@@ -501,7 +501,7 @@ def get_sum(head):
     return ans
 '''
 
-#Fast and Slow pointer technique 
+#Fast and Slow pointer technique. To find middle element, to detect cycles, etc. 
 def get_middle(head):
     slow = head
     fast = head
