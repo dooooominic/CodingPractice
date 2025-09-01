@@ -464,7 +464,9 @@ class Solution:
     
         return ans
 
-#LinkedList in Python! No pointers!
+'''
+LinkedList in Python! No Pointers!
+'''
 class ListNode:
     def __init__(self, val):
         self.val = val
@@ -511,3 +513,127 @@ def get_middle(head):
     
     return slow.val
 
+def find_node(head, k): #finding node k away from the end of the linked list
+    slow = head
+    fast = head
+    for _ in range(k): #start by moving our fast pointer k away from slow. Then just march at same speed
+        fast = fast.next
+    
+    while fast:
+        slow = slow.next
+        fast = fast.next
+    
+    return slow
+
+#reversing a linked list: 
+def reverse_list(head):
+    prev = None
+    curr = head
+    while curr:
+        next_node = curr.next # first, make sure we don't lose the next node
+        curr.next = prev      # reverse the direction of the pointer!!
+        prev = curr           # set the current node to prev for the next node
+        curr = next_node      # move on
+        
+    return prev
+
+
+'''
+Stack in Python: Use a list! Append() and Pop() 
+'''
+# Declaration: we will just use a list
+stack = []
+
+# Pushing elements:
+stack.append(1)
+stack.append(2)
+stack.append(3)
+
+# Popping elements:
+#print(stack.pop()) #would have printed the element to be popped here. 3. 
+stack.pop() # 3 
+
+stack.pop() # 2
+
+# Check if empty
+not stack # False
+
+# Check element at top
+stack[-1] # 1
+
+# Get size
+len(stack) # 1
+
+#Matching Parentheses and Brackets Problem: 
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        matching = {"(": ")", "[": "]", "{": "}"}
+        
+        for c in s:
+            if c in matching: # if c is an opening bracket
+                stack.append(c)
+            else:
+                if not stack:
+                    return False
+                
+                previous_opening = stack.pop()
+                if matching[previous_opening] != c:
+                    return False
+ 
+        return not stack
+
+
+#deleting adjacent duplicate characters
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        stack = []
+        for c in s:
+            if stack and stack[-1] == c:
+                stack.pop()
+            else:
+                stack.append(c)
+        
+        return "".join(stack)
+    
+
+'''
+Queues in Python: Use Deque (Double Ended Queue) from Collections! 
+'''
+# Declaration: we will use deque from the collections module
+import collections
+queue = collections.deque()
+
+# If you want to initialize it with some initial values:
+queue = collections.deque([1, 2, 3])
+
+# Enqueueing/adding elements:
+queue.append(4)
+queue.append(5)
+
+# Dequeuing/removing elements:
+queue.popleft() # 1
+queue.popleft() # 2
+
+# Check element at front of queue (next element to be removed)
+queue[0] # 3
+
+# Get size
+len(queue) # 3
+
+'''
+Monotonic stacks: strictly increasing or strictly decreasing! 
+'''
+#Monotonic decreasing stack temperature problem: Leetcode 739
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        stack = []
+        answer = [0] * len(temperatures)
+        
+        for i in range(len(temperatures)):
+            while stack and temperatures[stack[-1]] < temperatures[i]:
+                j = stack.pop()
+                answer[j] = i - j
+            stack.append(i)
+        
+        return answer
