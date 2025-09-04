@@ -637,3 +637,137 @@ class Solution:
             stack.append(i)
         
         return answer
+    
+#Leetcode 239: Max in sliding window! First hard problem!
+from collections import deque
+
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        ans = []
+        queue = deque()
+        for i in range(len(nums)):
+            # maintain monotonic decreasing.
+            # all elements in the deque smaller than the current one
+            # have no chance of being the maximum, so get rid of them
+            while queue and nums[i] > nums[queue[-1]]:
+                queue.pop()
+
+            queue.append(i)
+
+            # queue[0] is the index of the maximum element.
+            # if queue[0] + k == i, then it is outside the window
+            if queue[0] + k == i:
+                queue.popleft()
+            
+            # only add to the answer once our window has reached size k
+            if i >= k - 1:
+                ans.append(nums[queue[0]])
+
+        return ans
+
+#Leetcode 1438: 
+from collections import deque
+
+class Solution:
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        increasing = deque()
+        decreasing = deque()
+        left = ans = 0
+        
+        for right in range(len(nums)):
+            # maintain the monotonic deques
+            while increasing and increasing[-1] > nums[right]:
+                increasing.pop()
+            while decreasing and decreasing[-1] < nums[right]:
+                decreasing.pop()
+                
+            increasing.append(nums[right])
+            decreasing.append(nums[right])
+            
+            # maintain window property
+            while decreasing[0] - increasing[0] > limit:
+                if nums[left] == decreasing[0]:
+                    decreasing.popleft()
+                if nums[left] == increasing[0]:
+                    increasing.popleft()
+                left += 1
+            
+            ans = max(ans, right - left + 1)
+
+        return ans
+
+'''
+Trees and Graphs in Python for Leetcode. Very similar to C++
+'''
+class TreeNode:
+    def __init__(self, val, left, right):
+        self.val = val
+        self.left = left
+        self.right = right
+#DFS: Depth-First Search: going down one branch all the way first!
+def dfs(node):#outside class. Inside of class would need self, self.dfs(node.left), etc. 
+    if node == None:
+        return
+    dfs(node.left)
+    dfs(node.right)
+    return
+
+def preorder_dfs(node):
+    if node == None:
+        return
+    print(node.val)
+    preorder_dfs(node.left)
+    preorder_dfs(node.right)
+    return
+
+def inorder_dfs(node):
+    if not node:
+        return
+
+    inorder_dfs(node.left)
+    print(node.val)
+    inorder_dfs(node.right)
+    return
+
+def postorder_dfs(node):
+    if not node:
+        return
+
+    postorder_dfs(node.left)
+    postorder_dfs(node.right)
+    print(node.val)
+    return
+
+#Leetcode 104: Max depth of BST:
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if root == None:
+            return 0
+        left = self.maxDepth(root.left)
+        right = self.maxDepth(root.right)
+        return max(left, right)+1
+#Iterative solution to the same problem! 
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        
+        stack = [(root, 1)]
+        ans = 0
+        
+        while stack:
+            node, depth = stack.pop()
+            ans = max(ans, depth)
+            if node.left:
+                stack.append((node.left, depth + 1))
+            if node.right:
+                stack.append((node.right, depth + 1))
+        
+        return ans
+
