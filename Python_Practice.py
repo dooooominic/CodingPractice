@@ -771,3 +771,43 @@ class Solution:
         
         return ans
 
+'''
+BFS in Python
+'''
+from collections import deque
+
+def print_all_nodes(root):
+    queue = deque([root])
+    while queue:
+        nodes_in_current_level = len(queue)
+        # do some logic here for the current level
+
+        for _ in range(nodes_in_current_level):
+            node = queue.popleft()
+            
+            # do some logic here on the current node
+            print(node.val)
+
+            # put the next level onto the queue
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+'''Binary Search Tree'''
+#938: Range of BST: Recall that In-Order traversal gives us sorted order in BST! 
+class Solution:
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        if not root:
+            return 0
+
+        ans = 0
+        if low <= root.val <= high:
+            ans += root.val
+        if low < root.val:
+            ans += self.rangeSumBST(root.left, low, high)
+        if root.val < high:
+            ans += self.rangeSumBST(root.right, low, high)
+
+        return ans
+
